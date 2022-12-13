@@ -2,7 +2,7 @@ import fs from "fs";
 import mongoose from "mongoose";
 import _ from "lodash";
 import bcrypt from "bcrypt";
-import upload from "../utils/multer.js";
+import upload from "../utils/Multer.js";
 import express from "express";
 import auth from "../Middlewares/Auth.middleware.js";
 import {
