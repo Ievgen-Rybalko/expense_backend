@@ -1,8 +1,9 @@
 import fs from "fs";
+import multer from "multer";
 import mongoose from "mongoose";
 import _ from "lodash";
 import bcrypt from "bcrypt";
-import upload from "../utils/Multer.js";
+//import upload from "../utils.Multer.js";
 import express from "express";
 import auth from "../Middlewares/Auth.middleware.js";
 import {
@@ -12,6 +13,20 @@ import {
 } from "../Models/Users.model.js";
 
 const router = express.Router();
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/");
+  },
+
+  filename: function (req, file, cb) {
+    const newFileName = file.originalname.split(".")[0];
+    const fileType = file.mimetype.split("/")[1];
+    cb(null, newFileName + new Date().getTime() + "." + fileType);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router.get("/me", async function (req, res) {
   const user = await UserModel.findById(req.user._id).select("-pin");
